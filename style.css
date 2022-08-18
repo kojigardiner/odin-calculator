@@ -1,6 +1,15 @@
+/* * {
+    border: solid red 1px;
+} */
+
 html {
     font-family: 'Courier New', Courier, monospace;
     box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
 }
 
 .container {
@@ -8,21 +17,24 @@ html {
     flex-direction: column;
     justify-content: center;
     gap: 3px;
+    width: 400px;
+}
+
+.row {
+    flex: 1;
+    display: flex;
+    height: 50px;
+    gap: 3px;
+    justify-content: flex-end;
 }
 
 .display {
-    flex: 1;
     font-size: 30px;
     font-weight: bold;
     color: white;
     background-color: black;
     padding: 10px;
     border-radius: 10px;
-}
-
-.row {
-    display: flex;
-    gap: 3px;
 }
 
 button {
@@ -34,9 +46,17 @@ button {
     border-radius: 10px;
 }
 
+button:hover {
+    transform: scale(1.03);
+}
+
 .btn-op {
     background-color: orange;
     color: white;
+}
+
+.btn-op:active {
+    background-color: darkorange;
 }
 
 .btn-num {
@@ -44,12 +64,20 @@ button {
     color: white;
 }
 
+.btn-num:active {
+    background-color: black;
+}
+
 .btn-clear {
     background-color: lightgray;
 }
 
+.btn-clear:active {
+    background-color: gray;
+}
+
 #btn-0 {
-    flex: 3;
+    flex: 4;
 }
 
 #btn-add {
