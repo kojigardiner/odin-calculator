@@ -11,7 +11,12 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    if (b === 0) {
+        alert("Dividing by zero is not allowed!")
+        clearButtonEvent();
+    } else {
+        return a / b;
+    }
 }
 
 function operate(op, a, b) {
@@ -56,6 +61,7 @@ function clearButtonEvent(e) {
     displayString = "0";
     firstVal = "";
     op = "";
+
     updateDisplay();
 }
 
@@ -64,25 +70,23 @@ function opButtonEvent(e) {
 
     let currOp = button.getAttribute("id");
 
-    // if we have a value and an previous operator, apply it
-    if (firstVal !== "" && (op !== "" || currOp === "equals")) {
+    // if we have a value and a previous operator, apply it
+    if (firstVal !== "" && op !== "") {
         let secondVal = displayString;
         let result = operate(op, +firstVal, +secondVal);
 
         displayString = result;
-
-        // store the result and the operator that was clicked
-        firstVal = result;
-    } else {
-        firstVal = displayString;
     }
 
     // if the user hit equals, we don't store the operator since the calc has been done
-    if (currOp === "equals") {
-        op = "";
-    } else {
+    if (currOp !== "equals") {
         op = currOp;
+    } else {
+        op = "";
     }
+
+    // store for further operations
+    firstVal = displayString;
 
     clearDisplay = true;    // make sure the next number pushed clears the display
 
