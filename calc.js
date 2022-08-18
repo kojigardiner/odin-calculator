@@ -38,6 +38,13 @@ function operate(op, a, b) {
 function updateDisplay() {
     const display = document.querySelector(".display");
     display.textContent = displayString;
+
+    const decimalButton = document.querySelector("#decimal");
+    if (displayString.toString().includes(".")) {
+        decimalButton.style.backgroundColor = "#333333";
+    } else {
+        decimalButton.style.backgroundColor = "gray";
+    }
 }
 
 function numButtonEvent(e) {
@@ -93,6 +100,22 @@ function opButtonEvent(e) {
     updateDisplay();
 }
 
+function deleteButtonEvent(e) {
+    if (displayString.length > 1) {
+        displayString = displayString.slice(0, displayString.length - 1);
+    } else {
+        displayString = "0";
+    }
+    updateDisplay();
+}
+
+function decimalButtonEvent(e) {
+    if (!displayString.toString().includes(".")) {
+        displayString += ".";
+    }
+    updateDisplay();
+}
+
 let displayString = "0";
 let firstVal = "";
 let op = "";
@@ -103,8 +126,14 @@ updateDisplay();
 const numButtons = document.querySelectorAll(".btn-num");
 numButtons.forEach(button => button.addEventListener("click", numButtonEvent));
 
-const clearButton = document.querySelector(".btn-clear");
+const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", clearButtonEvent);
+
+const deleteButton = document.querySelector("#delete");
+deleteButton.addEventListener("click", deleteButtonEvent);
+
+const decimalButton = document.querySelector(".btn-decimal")
+decimalButton.addEventListener("click", decimalButtonEvent);
 
 const opButtons = document.querySelectorAll(".btn-op");
 opButtons.forEach(button => button.addEventListener("click", opButtonEvent));

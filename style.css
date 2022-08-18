@@ -10,6 +10,7 @@ html {
 body {
     display: flex;
     justify-content: center;
+    background-color: lightblue;
 }
 
 .container {
@@ -59,27 +60,27 @@ button:hover {
     background-color: darkorange;
 }
 
-.btn-num {
+.btn-num,
+.btn-decimal {
     background-color: gray;
     color: white;
 }
 
-.btn-num:active {
+.btn-num:active,
+.btn-decimal:active {
     background-color: black;
 }
 
-.btn-clear {
+.btn-clear,
+.btn-delete {
     background-color: lightgray;
 }
 
-.btn-clear:active {
+.btn-clear:active,
+.btn-delete:active {
     background-color: gray;
 }
 
 #btn-0 {
-    flex: 4;
-}
-
-#btn-add {
-    flex: 1;
+    flex: 2.35;
 }
