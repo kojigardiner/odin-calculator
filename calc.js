@@ -126,6 +126,12 @@ function decimalButtonEvent(e) {
     updateDisplay();
 }
 
+function keyEvent(e) {
+    const button = document.querySelector(`button[data-key="${e.keyCode}"]`)
+    let event = new Event("click");
+    button.dispatchEvent(event);
+}
+
 const maxChars = 12;
 let displayString = "0";
 let firstVal = "";
@@ -148,3 +154,5 @@ decimalButton.addEventListener("click", decimalButtonEvent);
 
 const opButtons = document.querySelectorAll(".btn-op");
 opButtons.forEach(button => button.addEventListener("click", opButtonEvent));
+
+document.addEventListener("keydown", keyEvent);

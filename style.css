@@ -17,7 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 3px;
+    gap: 5px;
     width: 400px;
     background-color: lightcyan;
     padding: 20px;
@@ -29,7 +29,7 @@ body {
     flex: 1;
     display: flex;
     height: 50px;
-    gap: 3px;
+    gap: 5px;
     justify-content: flex-end;
 }
 
