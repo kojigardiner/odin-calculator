@@ -1,3 +1,4 @@
+// Fundamental operations
 function add(a, b) {
     return a + b;
 }
@@ -19,6 +20,7 @@ function divide(a, b) {
     }
 }
 
+// Returns the result of applying the operator op on operands a and b
 function operate(op, a, b) {
     switch (op) {
         case "add":
@@ -35,10 +37,13 @@ function operate(op, a, b) {
     }
 }
 
+// Updates the text shown on the display element
 function updateDisplay() {
     const display = document.querySelector(".display");
     display.textContent = displayString;
 
+    // if there is a decimal in the current value being displayed, we
+    // need to disable the decimal button (gray it out)
     const decimalButton = document.querySelector("#decimal");
     if (displayString.toString().includes(".")) {
         decimalButton.style.backgroundColor = "#333333";
@@ -47,6 +52,7 @@ function updateDisplay() {
     }
 }
 
+// Handle number button presses
 function numButtonEvent(e) {
     const button = e.target;
 
@@ -54,16 +60,19 @@ function numButtonEvent(e) {
     if (clearDisplay) {
         displayString = button.textContent;
         clearDisplay = false;
+        // handle the special case of a 0 on the display, where we don't want to append
+        // another 0
     } else if (displayString === "0") {
         if (button.textContent !== "0") {
             displayString = button.textContent;
         }
-    } else if (displayString.toString().length < maxChars) {
+    } else if (displayString.toString().length < MAXCHARS) {
         displayString += button.textContent;
     }
     updateDisplay();
 }
 
+// Handle clear button press
 function clearButtonEvent(e) {
     displayString = "0";
     firstVal = "";
@@ -72,44 +81,53 @@ function clearButtonEvent(e) {
     updateDisplay();
 }
 
+// Rounds a decimal value string to fit within the display
+function roundDecimal(string) {
+    let parts = string.toString().split(".");
+    let decimalLength = MAXCHARS - parts[0].length - 1; // length remaining for the decimal
+    let result = parseFloat(result.toString()).toFixed(decimalLength);
+
+    return result;
+}
+
+// Handle operate button presses (e.g. =, x, /, +, -)
 function opButtonEvent(e) {
     const button = e.target;
 
     let currOp = button.getAttribute("id");
 
-    // if we have a value and a previous operator, apply it
+    // if we already have a value stored as well as a previous operator, first we need to apply it
     if (firstVal !== "" && op !== "") {
         let secondVal = displayString;
         let result = operate(op, +firstVal, +secondVal);
 
         // deal with display overflow
-        if (result.toString().length > maxChars) {
+        if (result.toString().length > MAXCHARS) {
             if (result.toString().includes(".")) {  // if we have a floating point value, we need to carefully round
-                let parts = result.toString().split(".");
-                let decimalLength = maxChars - parts[0].length - 1; // length remaining for the decimal
-                result = parseFloat(result.toString()).toFixed(decimalLength);
+                result = roundDecimal(result);
             } else {  // if no decimal, we've hit an int overflow condition and should cap to the max possible value
-                result = "9".repeat(maxChars);
+                result = "9".repeat(MAXCHARS);
             }
         };
         displayString = result;
     }
 
-    // if the user hit equals, we don't store the operator since the calc has been done
-    if (currOp !== "equals") {
-        op = currOp;
-    } else {
+    // if the user hit equals, we don't store the operator since the calc has been done above
+    if (currOp === "equals") {
         op = "";
+    } else {
+        op = currOp;
     }
 
     // store for further operations
     firstVal = displayString;
 
-    clearDisplay = true;    // make sure the next number pushed clears the display
+    clearDisplay = true;    // make sure the next number entered clears the display
 
     updateDisplay();
 }
 
+// Handle delete button press
 function deleteButtonEvent(e) {
     if (displayString.length > 1) {
         displayString = displayString.slice(0, displayString.length - 1);
@@ -119,13 +137,15 @@ function deleteButtonEvent(e) {
     updateDisplay();
 }
 
+// Handle decimal button press
 function decimalButtonEvent(e) {
-    if (!displayString.toString().includes(".") && displayString.toString().length < maxChars) {
+    if (!displayString.toString().includes(".") && displayString.toString().length < MAXCHARS) {
         displayString += ".";
     }
     updateDisplay();
 }
 
+// Handle keyboard press
 function keyEvent(e) {
     const button = document.querySelector(`button[data-key="${e.keyCode}"]`)
     if (button) {
@@ -134,7 +154,9 @@ function keyEvent(e) {
     }
 }
 
-const maxChars = 12;
+// Script starts here
+
+const MAXCHARS = 12;        // this may need to be updated depending on the CSS
 let displayString = "0";
 let firstVal = "";
 let op = "";
@@ -142,13 +164,14 @@ let clearDisplay = false;
 
 updateDisplay();
 
+// Setup event listeners
 const numButtons = document.querySelectorAll(".btn-num");
 numButtons.forEach(button => button.addEventListener("click", numButtonEvent));
 
-const clearButton = document.querySelector("#clear");
+const clearButton = document.querySelector(".btn-clear");
 clearButton.addEventListener("click", clearButtonEvent);
 
-const deleteButton = document.querySelector("#delete");
+const deleteButton = document.querySelector(".btn-delete");
 deleteButton.addEventListener("click", deleteButtonEvent);
 
 const decimalButton = document.querySelector(".btn-decimal")
