@@ -19,6 +19,10 @@ body {
     justify-content: center;
     gap: 3px;
     width: 400px;
+    background-color: lightcyan;
+    padding: 20px;
+    border-radius: 10px;
+    border: solid 1px black;
 }
 
 .row {
@@ -30,7 +34,7 @@ body {
 }
 
 .display {
-    font-size: 30px;
+    font-size: 50px;
     font-weight: bold;
     color: white;
     background-color: black;

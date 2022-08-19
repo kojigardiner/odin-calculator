@@ -58,7 +58,7 @@ function numButtonEvent(e) {
         if (button.textContent !== "0") {
             displayString = button.textContent;
         }
-    } else {
+    } else if (displayString.toString().length < maxChars) {
         displayString += button.textContent;
     }
     updateDisplay();
@@ -82,6 +82,7 @@ function opButtonEvent(e) {
         let secondVal = displayString;
         let result = operate(op, +firstVal, +secondVal);
 
+        if (result.toString().length > maxChars) result = "9".repeat(maxChars);
         displayString = result;
     }
 
@@ -110,12 +111,13 @@ function deleteButtonEvent(e) {
 }
 
 function decimalButtonEvent(e) {
-    if (!displayString.toString().includes(".")) {
+    if (!displayString.toString().includes(".") && displayString.toString().length < maxChars) {
         displayString += ".";
     }
     updateDisplay();
 }
 
+const maxChars = 12;
 let displayString = "0";
 let firstVal = "";
 let op = "";
