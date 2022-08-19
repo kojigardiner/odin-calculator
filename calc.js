@@ -128,8 +128,10 @@ function decimalButtonEvent(e) {
 
 function keyEvent(e) {
     const button = document.querySelector(`button[data-key="${e.keyCode}"]`)
-    let event = new Event("click");
-    button.dispatchEvent(event);
+    if (button) {
+        let event = new Event("click");
+        button.dispatchEvent(event);
+    }
 }
 
 const maxChars = 12;
