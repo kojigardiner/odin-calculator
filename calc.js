@@ -82,7 +82,16 @@ function opButtonEvent(e) {
         let secondVal = displayString;
         let result = operate(op, +firstVal, +secondVal);
 
-        if (result.toString().length > maxChars) result = "9".repeat(maxChars);
+        // deal with display overflow
+        if (result.toString().length > maxChars) {
+            if (result.toString().includes(".")) {  // if we have a floating point value, we need to carefully round
+                let parts = result.toString().split(".");
+                let decimalLength = maxChars - parts[0].length - 1; // length remaining for the decimal
+                result = parseFloat(result.toString()).toFixed(decimalLength);
+            } else {  // if no decimal, we've hit an int overflow condition and should cap to the max possible value
+                result = "9".repeat(maxChars);
+            }
+        };
         displayString = result;
     }
 
